@@ -1,0 +1,1 @@
+    1.当synchronized标记在类方法上时，锁会和调用该类方法的类所对弈的java.lang.Class对象相关联。
