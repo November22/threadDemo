@@ -1,0 +1,36 @@
+    Java5引入了并发工具类，这是一个由强大且易扩展的高性能线程类组成的框架，包含线程池和阻塞队列。该
+框架由下列包中的多种类型组成：
+    1.java.util.concurrent:经常在并发编程中使用的工具类。如executors。
+    *2.java.util.concurrent.automic: 支持在单个变量上进行无锁且线程安全操作的工具类。
+    3.java.util.concurrent.locks:在某些条件上（这类对象或暂停执行，“等待”线程直到被其他线程唤醒，
+此时对象的一些布尔类型状态可能变为true）获取锁和执行等待的工具类。通过这些类型进行锁或等待操作
+比通过Java基于监听器的同步以及等待、唤醒机制具有更好的性能和伸缩性。
+
+1.java.lang.concurrent.Executor接口，声明了一个单独的void execute(Runnable runnable)方法，
+    -该接口存在的问题：
+        a.Executor只关注Runnable接口。由于Runnable的run()方法没有返回值，这对于一个可运行的任务而言，就
+    没法简单的把值返回给调用者。
+        b.Executor没有提供一种方式来追踪可运行任务的运行过程，例如，一个正在执行、正在取消了一个执行中的任务
+    或者确认什么时候任务完成执行。
+        c.Executor无法执行一组可运行的任务。
+        d.Executor没有为应用程序提供一种方式来关闭executor。
+2.java.lang.concurrent.ExecutorService接口解决了这些问题。
+    a. void shutdown():有序的开始关闭之前提交的任务，不在接收新的任务。在该executor关闭之后调用此方法没有任何作用。
+该方法不会等待之前提交的任务执行完成。等待，需要使用awaitTermination 方法。
+    b.List<Runnable> shutdownNow():尝试停止所有活跃线程，挂起等待任务的进程，并且返回一组正在等待执行的任务。这里
+里并未保证采用最优的方式停止处理活跃的执行线程。通常的实现是通过Thread.interrupt()方法取消任务，所以任何没有能
+响应中断的任务可能再也不会终止掉。
+    c.boolean isShutdown():当Executor已经终止返回true，否则返回false。
+    d.boolean isTerminated():若紧接着终止之后的所有任务都完成了，返回true，否则返回false。
+    e.boolean awaitTermination(long timeout, TimeUnit unit):在指定时间内，等所有任务执行完成。
+    f. <T> Future<T> submit(Callable<T> task):提交一个callable任务来执行，同时返回一个代表任务等待结果的
+Future实例。这个Future的实例的get()方法在成功执行完成之后后，返回任务的结果。
+    g.<T> Future<T> submit(Runnable task, T result):提交一个Runnable任务来执行，同时返回一个代表任务等待结果的
+Future实例。该Future的get方法在成功完成的情况下，返回结果值。
+    h.Future<?> submit(Runnable task):提交一个Runnable任务来执行，同时返回一个代表任务等待结果的Future实例。
+该Future的get方法在成功完成的情况下，返回null。
+    i.<T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
+    j.<T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,long timeout, TimeUnit unit)
+    k.<T> T invokeAny(Collection<? extends Callable<T>> tasks)
+    l.<T> T invokeAny(Collection<? extends Callable<T>> tasks,long timeout, TimeUnit unit)
+
