@@ -1,0 +1,5 @@
+    (废弃)1.ThreadGroup:线程组，一个线程组代表了一组线程。一个线程组可以包含其他线程。这些线程组形成了一棵树，除了
+初始线程，每个线程组都有一个父线程组。
+    2.ThreadLocal 的实例代表一个线程局部变量，他为每一条访问线程提供了单独的存储槽。
+    3.如果想将一个线程的ThreadLocal值从父线程传递给子线程，那么需要借助【InheritableThreadLocal】来进行。
+    4.定时调度框架：java.util.Timer和java.util.TimerTask

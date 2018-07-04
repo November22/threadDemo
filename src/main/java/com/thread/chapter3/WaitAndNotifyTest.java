@@ -5,8 +5,8 @@ package com.thread.chapter3;
  *         Date: 2018/7/2
  */
 public class WaitAndNotifyTest {
-
-    private static Object object = new Object();
+    //当其他线程获取处理器的时间，那么就可以获得这个锁对象
+    private static final Object object = new Object();
 
     private static volatile boolean b = true;
 
@@ -15,6 +15,7 @@ public class WaitAndNotifyTest {
             public void run(){
                 synchronized (object){
                     try {
+                        System.out.println("t1-->"+Thread.holdsLock(object));
                         System.out.println("线程等待");
                         while (b) {
                             System.out.println("执行："+b);
@@ -30,6 +31,7 @@ public class WaitAndNotifyTest {
 
         };
 
+
         Thread t2 = new Thread(){
             public void run(){
                 try {
@@ -37,7 +39,9 @@ public class WaitAndNotifyTest {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                System.out.println("t21-->"+Thread.holdsLock(object));
                 synchronized (object){
+                    System.out.println("t22-->"+Thread.holdsLock(object));
                     System.out.println("拿到对象object");
                     b = false;//修改为false，不会再出发while循环
                     System.out.println("b修改为："+b);
