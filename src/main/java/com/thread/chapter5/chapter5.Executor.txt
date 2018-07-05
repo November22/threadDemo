@@ -1,3 +1,7 @@
+    //Executors作为局部变量时，创建了线程，
+    //一定要记得调用executor.shutdown();来关闭线程池，
+    //如果不关闭，会有线程泄漏问题。
+
     Java5引入了并发工具类，这是一个由强大且易扩展的高性能线程类组成的框架，包含线程池和阻塞队列。该
 框架由下列包中的多种类型组成：
     1.java.util.concurrent:经常在并发编程中使用的工具类。如executors。
@@ -14,7 +18,7 @@
     或者确认什么时候任务完成执行。
         c.Executor无法执行一组可运行的任务。
         d.Executor没有为应用程序提供一种方式来关闭executor。
-2.java.lang.concurrent.ExecutorService接口解决了这些问题。
+2.java.lang.concurrent.ExecutorService 接口解决了这些问题。
     a. void shutdown():有序的开始关闭之前提交的任务，不在接收新的任务。在该executor关闭之后调用此方法没有任何作用。
 该方法不会等待之前提交的任务执行完成。等待，需要使用awaitTermination 方法。
     b.List<Runnable> shutdownNow():尝试停止所有活跃线程，挂起等待任务的进程，并且返回一组正在等待执行的任务。这里
@@ -33,4 +37,14 @@ Future实例。该Future的get方法在成功完成的情况下，返回结果�
     j.<T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,long timeout, TimeUnit unit)
     k.<T> T invokeAny(Collection<? extends Callable<T>> tasks)
     l.<T> T invokeAny(Collection<? extends Callable<T>> tasks,long timeout, TimeUnit unit)
+
+3.Callable :可以有返回值和抛出异常。
+4.Future ： 代表一种异步计算的结果。这个结果被称为Future，是因为它通常在某个未来时刻才有效。同时他可以获取该
+任务的执行时状态。
+
+5.接口 java.util.concurrent.ScheduleExecutorService
+    继承自ExecutorService。它代表一种能够让你调度任务运行一次或者在指定延迟之后周期执行的executor。
+
+6.ThreadPoolExecutor  适合使用配置文件的方式执行。
+
 
