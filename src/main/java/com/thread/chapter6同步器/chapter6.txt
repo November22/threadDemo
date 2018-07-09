@@ -1,0 +1,30 @@
+    6.1 倒计时门闩【java.util.concurrent.CountDownLatch】
+    1.倒计时门闩会导致一条或多条线程在“门口”一直等待，直到另一个线程打开这扇门，线程才会继续运行。
+它是由一个【计数变量】和【两个操作】组成的，这两个操作分别是“导致一个线程等待直到计数变为0”和“递减
+计数变量”。
+    2.java.util.concurrent.CountDownLatch 构造方法传入 计数个数。
+     CountDownLatch countDownLatch = new CountDownLatch(2);
+        - public void await():除非线程被中断，否则强制线程一直等到计数器到0.
+        - public boolean await(long timeout, TimeUnit unit)：除非线程被中断，否则强制线程一直等到计数器到0。
+    或者等到超时。当count为0时，返回true，当等待超时返回为false。
+        -  public void countDown()：递减计数，当计数将至0，释放所有等待线程。
+    当该方法调用时count为0，那什么也不会发生。
+        - public long getCount()：返回当前计数，主要用于测试和调试。
+
+    6.2 同步屏障 【java.util.concurrent.CyclicBarrier】
+        1.同步屏障允许一组线程彼此相互等待，直到抵达某个公共的屏障点。因为该屏障可以在等待线程被释放后可以
+    重新使用，所以称它为【可循环使用的屏障】。该同步器对数量固定并且相互之间必须不时等待彼此的线程非常适用。
+        2.构造方法
+            a.new CyclicBarrier(2); 指定拥有共同执行目标的线程数
+            b.public CyclicBarrier(int parties, Runnable barrierAction);包含指定数据的线程跨越屏障后
+        执行线程 barrierAction【适用于在任意线程继续执行之前更新状态】
+        3.方法
+            -public int await()：强制调用线程一直等待直到多有的 parties都已经在同步屏障山调用了await()方法。
+        当调用线程自己或其他等待线程被中断、所有线程在等待中超时或者线程在同步屏障之前调用了reset()方法，
+        该调用线程就会停止等待。
+            - public int await(long timeout, TimeUnit unit)：指定等待超时时间。等待超时会抛出异常。
+            - public int getNumberWaiting() ：返回当前同步屏障上等待的线程数目；
+            - public int getParties()：返回需要跨越同步屏障的线程数目。
+            - public void reset() ：把同步屏障重置到原始状态。如果此时任意的线程等待在这个同步屏障上，就会抛出一个
+        BrokenBarrierException。
+
