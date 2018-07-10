@@ -12,7 +12,8 @@ import java.util.concurrent.Executors;
  *每个线程解析一个sheet里的数据，等到所有的sheet都解析完之后，程序需要提示解析完成。
 
  *在这个需求中，要实现主线程等待所有线程完成sheet的解析操作，最简单的做法是使用join。也可以使用CountDownLatch】
-
+    //其实每个sheet页启动一个线程。然后用  boolean awaitTermination(long timeout, TimeUnit unit) 更好
+ * 避免线程一直等待
  */
 public class CountDownLatchTest {
 
