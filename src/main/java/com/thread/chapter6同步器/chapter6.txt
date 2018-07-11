@@ -37,5 +37,17 @@
         当前线程会立即返回，接收其他线程传入交换器中的对象。当调用线程被中断了，该方法会抛出线程中断异常。
             b.public V exchange(V x, long timeout, TimeUnit unit):超时后会抛出异常。
 
+    6.4 信号量 java.util.concurrent.Semaphore
+        1.信号量维护了一组许可证（permit），以约束访问被限制资源的线程数。当没有许可证的时候，线程的获取
+    尝试会一直阻塞，直到其他线程释放一个许可证。
+        2.构造函数
+            a.public Semaphore(int permits) :初始化一个指定数据量的许可证的信号量。默认使用非公平策略。
+            b.public Semaphore(int permits, boolean fair):初始化一个指定数量的许可证信号量，使用指定策略。
+        3.方法
+            a.public void acquire():从信号量中获取一个许可证，否则阻塞直到有一个许可证可用或者调用线程被中断。
+            b.boolean tryAcquire(int permits):仅当调用是有一个许可证可用的情况，才返回true，否则返回false；
+            c.public void release() :释放一个许可证。
+
+
 
 
