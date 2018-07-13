@@ -1,0 +1,11 @@
+    7.1 锁 java.util.concurrent.locks.Lock [接口]
+        1.接口Lock提供了比监听器关联的锁更为弹性的操作，例如，当锁不可用的时候，可以立即推出对一个锁的请求。
+        2.方法
+            a.void lock(); 获取锁；当锁不可用的时候，调用线程会被强制一直等待直到锁可用。
+            b.void lockInterruptibly(): 除非线程中断，否则获得锁。当锁不可用时，调用线程被强制一直等待，直到锁可用或线程中断，
+        线程中断会抛出异常。InterruptedException。
+            c.Condition newCondition();返回一个新的绑定到当前锁实例之上 的Condition实例。当Lock类不支持条件时，
+        该方法抛出 UnsupportedOperationException 异常。
+            d.boolean tryLock();在该方法被调用时，锁可用则获得。当获得锁之后，该方法返回true；反之返回false。
+            f.boolean tryLock(long time, TimeUnit unit)：在指定时间内判断锁是否可用。
+            g.void unlock();释放锁。

@@ -1,4 +1,4 @@
-package com.thread.chapter5锁框架;
+package com.thread.chapter5Executors;
 
 import java.util.ArrayList;
 import java.util.Collection;
