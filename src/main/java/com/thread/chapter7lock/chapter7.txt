@@ -9,3 +9,29 @@
             d.boolean tryLock();在该方法被调用时，锁可用则获得。当获得锁之后，该方法返回true；反之返回false。
             f.boolean tryLock(long time, TimeUnit unit)：在指定时间内判断锁是否可用。
             g.void unlock();释放锁。
+
+    7.2 重入锁 java.util.concurrent.locks.ReentrantLock
+        ReentrantLock实现了接口Lock，描述了一个可重入的互斥锁。这个锁和一个持有量相关联。当一条线程持有这个锁
+    并且调用lock()、lockUninterruptibly()或者任意一个tryLock方法 【重新获取锁】，这个持有量就递增1.当线程
+    调用unlock()方法，持有量就减1.当持有量减为0，锁就会释放掉。
+        优点：具备可扩展的功能并且在高线程争用的环境下具有更好的性能。这样很多线程访问共享资源的时候，JVM会花费
+    更少的时间来调度这些线程，而把更多德时间用于执行他们。
+
+    7.3 条件 java.util.concurrent.locks.Condition
+        接口Condition把Object的wait和notify方法分解到不同的条件对象中。通过这些条件和任意的Lock实现组合起来使用，
+    起到了让每个对象上具备【多重等待】集合的作用。
+        PS：【一个Condition的实例原本就会绑定到一个锁上。可以使用Lock的newCondition()方法去获取一个针对特定Lock
+    实例的Condition实例】
+
+    7.4 读写锁 接口 ReadWriteLock
+        读写锁适用于对数据结构频繁读而较少修改的场景。
+        ReadWriteLock 维护了一对锁：一个锁针对只读操作，一个针对只写操作。在没有写操作的时候，读锁可以被多个读线程
+    共同持有。写入锁是互斥的。
+
+    7.5 重入读写锁 ReentrantReadWriteLock （内部类实现的读写锁）
+        1.方法
+            a. public ReentrantReadWriteLock.WriteLock writeLock() :返回写锁。
+            b.public ReentrantReadWriteLock.ReadLock  readLock() :返回读锁。
+            c.public int getReadHoldCount():返回该调用线程在这个锁上持有读锁的数量，调用线程没有持有这个读
+        锁，返回0.读线程对每一个上锁动作没有释放动作的锁，都会有一个持有量。
+            d. public int getWriteHoldCount() :同上，只是针对写锁。
