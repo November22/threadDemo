@@ -1,0 +1,17 @@
+    场景：假设每条线程在不同的处理器上运行。由于不同数量的元素会在数组的每个部分上重新排序，很可能
+一条线程先于其他线程完成，但是在合并之前必须等待。这样一个处理器的资源就被浪费了。、
+    1.Fork/Join框架由【特定的ExecutorService】和线程池构成。ExecutorService可以运行任务，并且这个任务
+会被分解成比较小的任务，他们从线程池中被fork(被不同的程序执行)出来，在join之前会一直等待。
+    2.Fork/Join使用了【任务窃取】来最小化线程的争用和开销。线程池中的每条工作线程都有自己的【双端工作队列】
+并且会将新任务放到这个队列中。
+
+    3.Fork/Join框架绝大部分由java.util.concurrent包中的ForkJoinPool、ForkJoinTask、ForkJoinWorkerThread、
+RecursiveAction、RecursiveTask以及CountedCompleter类组成。
+        a.ForkJoinPool 是一个针对运行中的 ForkJoinTasks 的吗java.util.concurrent.ExecutorService实现。
+        b.ForkJoinTask:一个抽象基类，专门针对ForkJoinTask上下文中的任务。一个ForkJoinTask的实例是一个类似
+    线程的实体，不过比正常的线程轻量很多。
+        c.ForkJoinWorkerThread：描述了被ForkJoinPool管理的一个线程，它执行ForkJoinTask。
+        d.RecursiveAction：描述了一个递归的、无结果的ForkJoinTask。
+        e.RecursiveTask：描述了一个递归的、有结果的ForkJoinTask。
+        f.CountedCompleter：描述了一个带有完成动作（完成一个Fork/Join任务）的ForkJoinTask，在被触发且没有
+    其他滞留的动作时这个任务会被执行。
