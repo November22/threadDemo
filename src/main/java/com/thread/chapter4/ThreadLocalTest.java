@@ -14,19 +14,26 @@ public class ThreadLocalTest {
         Runnable runnable = new Runnable() {
             public void run() {
                 threadLocal.set(100);
-                ThreadLocal threadLocal1 = new ThreadLocal();
-                System.out.println("仙剑："+threadLocal1.get());
-
                 Runnable r2 = new Runnable() {
                     public void run() {
+                        threadLocal.set(200);
+//                        如下注释的代码对24行的threadLocal.get()无影响
+//                        ThreadLocal local = new ThreadLocal();
+//                        local.set(500);
                         String name = Thread.currentThread().getName();
                         System.out.println("name:"+name+",value"+threadLocal.get());
                     }
                 };
                 Thread thread = new Thread(r2,"run2");
                 thread.start();
+                try {
+                    Thread.sleep(5000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(Thread.currentThread().getName()+"["+threadLocal.get()+"]");
             }
         };
-        new Thread(runnable).start();
+        new Thread(runnable,"run1").start();
     }
 }
