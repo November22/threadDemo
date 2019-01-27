@@ -3,5 +3,10 @@
     2.ThreadLocal 的实例代表一个线程局部变量，他为每一条访问线程提供了单独的存储槽。
         2.1 ThreadLocal 每次执行get和set方法的时候，都会去获取当前线程的本地变量。所以ThreadLocal的get和set都是对当前线程操作的。
         2.2 ThreadLocal 操作get和set时，其实时对当前线程操作，每个线程自己有一个ThreadLocal.ThreadLocalMap，来存储自己的线程变量，ThreadLocal就是用来操作这个ThreadLocalMap
+
+        ThreadLocal -静态内部类-> ThreadLocalMap
+        Thread -属性-> ThreadLocal.ThreadLocalMap
+        set 获取 当前Thread的ThreadLocal.ThreadLocalMap
+        	- null 为线程创建 ThreadLocal.ThreadLocalMap值，然后set key = 当前threadLocal
     3.如果想将一个线程的ThreadLocal值从父线程传递给子线程，那么需要借助【InheritableThreadLocal】来进行。
     4.定时调度框架：java.util.Timer和java.util.TimerTask

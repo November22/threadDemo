@@ -18,8 +18,8 @@ public class ThreadLocalTest {
                     public void run() {
                         threadLocal.set(200);
 //                        如下注释的代码对24行的threadLocal.get()无影响
-//                        ThreadLocal local = new ThreadLocal();
-//                        local.set(500);
+                        ThreadLocal local = new ThreadLocal();
+                        local.set(500);
                         String name = Thread.currentThread().getName();
                         System.out.println("name:"+name+",value"+threadLocal.get());
                     }
