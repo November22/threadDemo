@@ -43,16 +43,22 @@ public class ConditionTest1 {
     //FIFO队列，先进先出
     public static void main(String[] args) throws Exception {
         List<Condition> conditions = new ArrayList<Condition>();
-        for(int i=0;i<10;i++){
+        for(int i=0;i<4;i++){
             Condition condition = waitByCondition(i);
             conditions.add(i,condition);
         }
         System.out.println("主线程休息10秒");
-        Thread.sleep(10000L);
+        Thread.sleep(10*000L);
         lock.lock();
         //唤醒方法在执行的时候需要持有锁，即在lock.lock(); 和 lock.unlock();之间执行
         //否则 IllegalMonitorStateException
         conditions.get(0).signal();
+        conditions.get(1).signal();
+        conditions.get(2).signal();
+        conditions.get(3).signal();
+        conditions.get(0).signal();
+        System.out.println("发起了唤醒");
         lock.unlock();
+        System.out.println("主线程释放锁");
     }
 }
